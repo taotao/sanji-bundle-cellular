@@ -293,6 +293,24 @@ class CellMgmt(object):
             "PIN="
         ]
 
+        # hotfix
+        try:
+            _logger.warning("tw hotfix")
+            res = sh.qmicli(
+                '-d', '/dev/cdc-wdm0',
+                '--nas-set-system-selection-preference=gsm|umts', '-p')
+            _logger.warning(str(res))
+        except Exception as e:
+            try:
+                _logger.warning("tw hotfix part 2 %s" % e)
+                res = sh.qmicli(
+                    '-d', '/dev/cdc-wdm0',
+                    '--nas-set-system-selection-preference=gsm|umts')
+                _logger.warning(str(res))
+            except Exception as e:
+                _logger.warning("tw hotfix error %s" % e)
+        # hotfix
+
         output = self._cell_mgmt(*args)
         output = str(output)
         if self._invoke_period_sec != 0:
